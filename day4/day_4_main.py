@@ -1,4 +1,5 @@
 from day_4_data import data, selected_nums
+from pprint import pprint
 
 # convert all data points to tuples, for flags
 
@@ -22,63 +23,94 @@ def prep_data(unclean_data):
 
 def play_bingo(bingo_data, chosen_numbers):
     # gets each board container
-    winner = False
 
-    while not winner:
+    for number in chosen_numbers:
+        for row in bingo_data:
+            for number_flag in row:
+                if number_flag[0] == number:
+                    number_flag[1] = 1
 
-        for number in chosen_numbers:
-            print(number)
-            print(bingo_data)
-            row = 0
+        winner = check_for_winner(bingo_data)
+        if winner:
+            break
+
+    print('Winner!')
+    pprint(bingo_data)
+
+
+def check_for_winner(table):
+    print('checking')
+    row = 0
+    index = 0
+
+    # Win by column
+    while True:
+
+        if table[0][index][1] != 0 and \
+                table[1][index][1] != 0 and \
+                table[2][index][1] != 0 and \
+                table[3][index][1] != 0 and \
+                table[4][index][1] != 0:
+            print('won by column')
+            return True
+        index += 1
+        if index == 5:
             index = 0
-            if bingo_data[row][index][1] != 0 &\
-                    bingo_data[row + 1][index][1] != 0 & \
-                    bingo_data[row + 2][index][1] != 0 & \
-                    bingo_data[row + 3][index][1] != 0 & \
-                    bingo_data[row + 4][index][1] != 0:
-                winner = True
-                print('won by column')
-                break
+            break
 
-            # win by row
-            if bingo_data[row][index][1] != 0 &\
-                    bingo_data[row][index + 1][1] != 0 & \
-                    bingo_data[row][index + 2][1] != 0 & \
-                    bingo_data[row][index + 3][1] != 0 & \
-                    bingo_data[row][index + 4][1] != 0 :
-                winner = True
-                print('won by row')
-                break
+    while True:
 
-            # win by diagonal
-            if bingo_data[row][index][1] != 0 &\
-                    bingo_data[row + 1][index + 1][1] != 0 & \
-                    bingo_data[row + 2][index + 2][1] != 0 & \
-                    bingo_data[row + 3][index + 3][1] != 0 & \
-                    bingo_data[row + 4][index + 4][1] != 0:
-                print('Win by Column (starting at top left')
-                break
+        if table[row][0][1] != 0 and \
+                table[row][1][1] != 0 and \
+                table[row][2][1] != 0 and \
+                table[row][3][1] != 0 and \
+                table[row][4][1] != 0:
 
-            # win by other diagonal
-            if bingo_data[row + 4][index + 4][1] != 0 &\
-                    bingo_data[row + 3][index + 3][1] != 0 & \
-                    bingo_data[row + 2][index + 2][1] != 0 & \
-                    bingo_data[row + 1][index + 1][1] != 0 & \
-                    bingo_data[row][index][1] != 0:
-                print('Win by Column (starting at top right')
-                break
+            print('won by row')
+            print(table[row])
+            return True
+        row += 1
+        if row == 5:
+            row = 0
+            break
 
-            for row in bingo_data:
-                for number_flag in row:
-                    if number_flag[0] == number:
-                        number_flag[1] = 1
-        # win by column
-        print(bingo_data[row][index][1])
+    # win by diagonal
+    if table[0][0][1] != 0 and \
+            table[1][1][1] != 0 and \
+            table[2][2][1] != 0 and \
+            table[3][3][1] != 0 and \
+            table[4][4][1] != 0:
+        print('Win by Diagonal (starting at top left')
+        return True
+
+    # win by other diagonal
+    if table[0][4][1] != 0 and \
+            table[1][3][1] != 0 and \
+            table[2][2][1] != 0 and \
+            table[3][1][1] != 0 and \
+            table[4][0][1] != 0:
+        print('Won by other Diagonal')
+        return True
+
+    print('Nothing happened')
+    return False
 
 
 bingo_board = prep_data(data)
 
-print(bingo_board)
+pprint(bingo_board)
 
 print(bingo_board[0][1][0])
 play_bingo(bingo_board, selected_nums)
+
+#
+# test_data = [
+#  [[22, 0], [13, 1], [17, 1], [11, 1], [0, 1]],
+#  [[8, 0], [2, 1], [23, 0], [4, 1], [24, 0]],
+#  [[21, 1], [9, 1], [14, 1], [16, 1], [7, 0]],
+#  [[6, 0], [10, 1], [3,0], [18, 1], [5, 0]],
+#  [[1, 1], [12, 0], [20, 0], [15, 0], [19, 1]]
+#  ]
+#
+# check_for_winner(test_data)
+
