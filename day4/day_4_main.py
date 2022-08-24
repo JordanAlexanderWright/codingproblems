@@ -1,4 +1,4 @@
-from day_4_data import data, selected_nums
+from day_4_data import clean_the_fucking_data, selected_nums, raw_data
 from pprint import pprint
 
 # convert all data points to tuples, for flags
@@ -95,13 +95,14 @@ def check_for_winner(table):
     print('Nothing happened')
     return False
 
-
-bingo_board = prep_data(data)
-
-pprint(bingo_board)
-
-print(bingo_board[0][1][0])
-play_bingo(bingo_board, selected_nums)
+cleaned_data = clean_the_fucking_data(raw_data)
+pprint(cleaned_data)
+# bingo_board = prep_data(data)
+#
+# pprint(bingo_board)
+#
+# print(bingo_board[0][1][0])
+# play_bingo(bingo_board, selected_nums)
 
 #
 # test_data = [
