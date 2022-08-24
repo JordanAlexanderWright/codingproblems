@@ -4,20 +4,6 @@ from pprint import pprint
 # convert all data points to tuples, for flags
 
 
-def prep_data(unclean_data):
-
-    cleaned_data = []
-
-    for bingo_row in unclean_data:
-        new_list = []
-        for number in bingo_row:
-            flagged_number = [number, 0]
-            new_list.append(flagged_number)
-
-        cleaned_data.append(new_list)
-
-    return cleaned_data
-
 
 # Need checks for each row, all indexes.
 
@@ -25,18 +11,20 @@ def play_bingo(bingo_data, chosen_numbers):
     # gets each board container
 
     for number in chosen_numbers:
-        for row in bingo_data:
-            for number_flag in row:
-                if number_flag[0] == number:
-                    number_flag[1] = 1
+        for table in bingo_data:
+            table_number = 1
+            for row in table:
+                for number_flag in row:
+                    if number_flag[0] == number:
+                        number_flag[1] = 1
 
-        winner = check_for_winner(bingo_data)
-        if winner:
-            break
+            winner = check_for_winner(table)
 
-    print('Winner!')
-    pprint(bingo_data)
-
+            # If there is a winner, return the table that is winning
+            if winner:
+                print('Winner!')
+                return table, table_number
+            table_number += 1
 
 def check_for_winner(table):
     print('checking')
@@ -97,14 +85,25 @@ def check_for_winner(table):
 
 cleaned_data = clean_the_fucking_data(raw_data)
 pprint(cleaned_data)
-# bingo_board = prep_data(data)
-#
+
+[winning_table, table_number] = play_bingo(cleaned_data, selected_nums)
+pprint(winning_table)
+print('Table Number:', table_number)
+
+
+
 # pprint(bingo_board)
 #
 # print(bingo_board[0][1][0])
 # play_bingo(bingo_board, selected_nums)
 
-#
+
+
+
+
+
+
+
 # test_data = [
 #  [[22, 0], [13, 1], [17, 1], [11, 1], [0, 1]],
 #  [[8, 0], [2, 1], [23, 0], [4, 1], [24, 0]],
