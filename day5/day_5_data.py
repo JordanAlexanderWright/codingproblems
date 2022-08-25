@@ -16,7 +16,6 @@ def clean_data(coordinate_data):
     for coord in split_data:
         # print(coord.split('->'))
         split_string = coord.split('->')
-        print(split_string)
         cleaned_coord = []
 
         for item in split_string:
@@ -24,6 +23,9 @@ def clean_data(coordinate_data):
 
         line_data.append(cleaned_coord)
 
-    print(line_data)
-clean_data(coordinates)
+    return line_data
+
+cleaned_data = clean_data(coordinates)
+
+print(cleaned_data)
 
