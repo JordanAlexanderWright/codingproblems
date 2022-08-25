@@ -22,8 +22,8 @@ def play_bingo(bingo_data, chosen_numbers):
 
             # If there is a winner, return the table that is winning
             if winner:
-                print('Winner!')
-                return table, table_number
+                print('Winner!', number)
+                return table, table_number, number
             table_number += 1
 
 def check_for_winner(table):
@@ -62,55 +62,49 @@ def check_for_winner(table):
             row = 0
             break
 
-    # win by diagonal
-    if table[0][0][1] != 0 and \
-            table[1][1][1] != 0 and \
-            table[2][2][1] != 0 and \
-            table[3][3][1] != 0 and \
-            table[4][4][1] != 0:
-        print('Win by Diagonal (starting at top left')
-        return True
+    # Commented out because apparently Diagonals Don't matter.. Beacuse bingo.
+    # # win by diagonal
+    # if table[0][0][1] != 0 and \
+    #         table[1][1][1] != 0 and \
+    #         table[2][2][1] != 0 and \
+    #         table[3][3][1] != 0 and \
+    #         table[4][4][1] != 0:
+    #     print('Win by Diagonal (starting at top left')
+    #     return True
+    #
+    # # win by other diagonal
+    # if table[0][4][1] != 0 and \
+    #         table[1][3][1] != 0 and \
+    #         table[2][2][1] != 0 and \
+    #         table[3][1][1] != 0 and \
+    #         table[4][0][1] != 0:
+    #     print('Won by other Diagonal')
+    #     return True
 
-    # win by other diagonal
-    if table[0][4][1] != 0 and \
-            table[1][3][1] != 0 and \
-            table[2][2][1] != 0 and \
-            table[3][1][1] != 0 and \
-            table[4][0][1] != 0:
-        print('Won by other Diagonal')
-        return True
-
-    print('Nothing happened')
+    # print('Nothing happened')
     return False
+
+
+def calc_score(table, last_number):
+
+    running_score= 0
+
+    for row in table:
+        for number in row:
+            if number[1] == 0:
+                print(number[0])
+                running_score += number[0]
+
+    return (running_score * last_number)
+
 
 cleaned_data = clean_the_fucking_data(raw_data)
 pprint(cleaned_data)
 
-[winning_table, table_number] = play_bingo(cleaned_data, selected_nums)
+[winning_table, table_number, winning_number] = play_bingo(cleaned_data, selected_nums)
+
+winning_score = calc_score(winning_table, winning_number)
+
 pprint(winning_table)
-print('Table Number:', table_number)
-
-
-
-# pprint(bingo_board)
-#
-# print(bingo_board[0][1][0])
-# play_bingo(bingo_board, selected_nums)
-
-
-
-
-
-
-
-
-# test_data = [
-#  [[22, 0], [13, 1], [17, 1], [11, 1], [0, 1]],
-#  [[8, 0], [2, 1], [23, 0], [4, 1], [24, 0]],
-#  [[21, 1], [9, 1], [14, 1], [16, 1], [7, 0]],
-#  [[6, 0], [10, 1], [3,0], [18, 1], [5, 0]],
-#  [[1, 1], [12, 0], [20, 0], [15, 0], [19, 1]]
-#  ]
-#
-# check_for_winner(test_data)
+print(f'Table Number: {table_number} wins with a score of {winning_score}')
 
